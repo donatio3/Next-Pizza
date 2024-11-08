@@ -58,7 +58,7 @@ export const authOptions: AuthOptions = {
           if (!isPasswordValid) return null
   
           // Проверяем, подтвержден ли пользователь
-          if (!findUser.verified) return null
+        //   if (!findUser.verified) return null
   
           // Возвращаем данные пользователя
           return {

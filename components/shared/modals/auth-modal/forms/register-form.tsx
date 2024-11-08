@@ -1,6 +1,5 @@
 'use client'
 import React from 'react';
-import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui';
 import { FormProvider, useForm } from 'react-hook-form';
 import { formRegisterSchema, TFormRegisterValues } from './schemas';
@@ -11,6 +10,7 @@ import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import toast from 'react-hot-toast';
 import { registerUser } from '@/app/actions';
+import { register } from '@/services/register';
 
 interface Props {
   className?: string
@@ -29,23 +29,20 @@ export const RegisterForm: React.FC<Props> = ({className, onClose}) => {
 
     const onSubmit = async (data: TFormRegisterValues) => {
         try {
-            await registerUser({
-                email: data.email,
-                fullName: data.fullName,
-                password: data.password as string,
-            });
+            await register(data.email, data.fullName, data.password as string);
             
             toast.error('Вы успешно зарегистрировались', {
                 icon: '✅',
             });
 
             onClose?.();
-        } catch (error) {
-        console.error('Error [LOGIN]', error);
-        return toast.error('Не удалось зарегистрироваться', {
-            icon: '❌',
-      });
-    }
+            
+            } catch (error) {
+            console.error('Error [LOGIN]', error);
+            return toast.error('Не удалось зарегистрироваться', {
+                icon: '❌',
+        });
+        }
     }
 
 

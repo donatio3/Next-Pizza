@@ -1,15 +1,11 @@
 'use server'
-import {Resend} from 'resend'
 import { CheckoutFormValues } from "@/constants";
 import { prisma } from "@/prisma/prisma-client";
 import { OrderStatus, Prisma } from "@prisma/client";
 import { cookies } from "next/headers";
 import { createPayment, sendEmail } from '@/lib';
-import { PayOrderTemplate } from '@/components/shared/email-templates/pay-order';
 import { getUserSession } from '@/lib/get-user-session';
 import { hashSync } from 'bcryptjs';
-import { VerificationUserTemplate } from '@/components/shared';
-import ReactDOMServer from 'react-dom/server';
 
 // все серверныe actions должны быть в одном файле 
 
@@ -166,6 +162,7 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
 
 
   export async function registerUser(body: Prisma.UserCreateInput) {
+    'use server'
     try {
       const user = await prisma.user.findFirst({
         where: {
@@ -199,13 +196,13 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
       });
   
 
-      await sendEmail(
-        createdUser.email,
-        'Next Pizza / 📝 Подтверждение регистрации',
-        VerificationUserTemplate({
-          code,
-        }),
-      );
+    //   await sendEmail(
+    //     createdUser.email,
+    //     'Next Pizza / 📝 Подтверждение регистрации',
+    //     VerificationUserTemplate({
+    //       code,
+    //     }),
+    //   );
     } catch (err) {
       console.log('Error [CREATE_USER]', err);
       throw err;
