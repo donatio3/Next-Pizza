@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const passwordSchema = z.string().min(6, {message: 'Минимум 6 символов'});
+export const passwordSchema = z.string().min(6, {message: 'Минимум 6 символов'}).optional();
 
 export const formLoginSchema = z.object({
     email: z.string().email({message: 'Некорректный email'}),

@@ -115,13 +115,13 @@ export async function createOrder(data: CheckoutFormValues) {
 
         const { email } = data; // Передавайте email из данных
         const subject = `Next Pizza / Оплатите заказ #${order.id}`;
-        const body = PayOrderTemplate({
-            orderId: order.id,
-            totalAmount: order.totalAmount,
-            paymentUrl
-        });
+        // const body = PayOrderTemplate({
+        //     orderId: order.id,
+        //     totalAmount: order.totalAmount,
+        //     paymentUrl
+        // });
         
-        await sendEmail(`${email}`, subject, body);
+        // await sendEmail(`${email}`, subject, body);
 
         return paymentUrl // ссылка на оплату ВОЗВРАЩАЕТСЯ 
 
@@ -180,15 +180,15 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
   
         throw new Error('Пользователь уже существует');
       }
-  
-      const createdUser = await prisma.user.create({
+   
+    const createdUser = await prisma.user.create({
         data: {
           fullName: body.fullName,
           email: body.email,
           password: hashSync(body.password, 10),
         },
       });
-  
+      
       const code = Math.floor(100000 + Math.random() * 900000).toString();
   
       await prisma.verificationCode.create({

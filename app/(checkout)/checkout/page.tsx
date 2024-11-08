@@ -71,6 +71,7 @@ export default function checkoutPage() {
             if (url) {
                 location.href = url
             }
+            console.log(url, 'url')
 
         } catch (error) {
             console.log(error)

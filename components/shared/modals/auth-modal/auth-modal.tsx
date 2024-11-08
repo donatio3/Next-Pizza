@@ -37,7 +37,7 @@ export const AuthModal: React.FC<Props> = ({className, onClose, open}) => {
                 <Button  
                 onClick={() => 
                     signIn('github', {
-                     callbackUrl: '/',
+                     callbackUrl: 'https://next-pizza-3g4ex5y10-dmitris-projects-75943609.vercel.app/api/auth/callback/github',
                      redirect: true})
                     } 
                 variant='secondary' 
@@ -49,7 +49,7 @@ export const AuthModal: React.FC<Props> = ({className, onClose, open}) => {
                 <Button  
                 onClick={() => 
                     signIn('google', {
-                     callbackUrl: '/',
+                     callbackUrl: 'https://next-pizza-3g4ex5y10-dmitris-projects-75943609.vercel.app/api/auth/callback/google',
                      redirect: true})
                     } 
                 variant='secondary' 

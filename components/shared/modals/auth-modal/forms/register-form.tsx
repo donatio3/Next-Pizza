@@ -32,7 +32,7 @@ export const RegisterForm: React.FC<Props> = ({className, onClose}) => {
             await registerUser({
                 email: data.email,
                 fullName: data.fullName,
-                password: data.password,
+                password: data.password as string,
             });
             
             toast.error('Вы успешно зарегистрировались', {
