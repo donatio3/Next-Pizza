@@ -1,0 +1,199 @@
+generator client {
+    provider = "prisma-client-js" // работа с js
+}
+
+datasource db { // показываем с какой БАЗОЙ ДАННЫХ НУЖНО РАБОАТЬ
+    provider = "postgresql"
+    url = env("POSTGRES_URL") // ссылка на БД
+    directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+ }
+
+
+// ОПИСАНИЕ ТАБЛИЦ
+// 1 указываем какие есть ПОЛЯ => сначала имя, тип данных, и @id или другие эл
+
+
+// ТЫ МОЖЕШЬ ХРАНИТЬ В Cart и ЕСЛИ не ЗАРЕГЕСТРИРОВАН, чтобы привязывать незарегистрированого user к Cart
+// ИСП. token в Cart
+// В КОРЗИНЕ ПРОДУКТЫ НЕ СВЯЗАНЫЕ С Product
+
+model User {
+    id Int @id @default(autoincrement()) // df(auto()) - ++id делает каждый раз
+
+    fullName String 
+    email    String @unique // проверяется в бд
+    password String
+    role UserRole @default(USER)
+    verified DateTime?  // подтвержден ли пользователь
+
+    provider String? // какая соц сеть привязана к акку и есть ли?
+    providerId String? // Id? 
+
+    cart   Cart? // у cart может не быть связи с User и у user может не быть связи с Cart
+    orders Order[]
+    verificationCode VerificationCode? // one to one
+
+
+    // user создан в опред время - now, DateTime дата создания
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt // Сохр когда User был обновлен
+}
+model Category {
+    id Int @id @default(autoincrement())
+    name String @unique
+    products Product[]  // связь one to many
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Product {
+    id Int @id @default(autoincrement()) 
+
+    name String
+    imageUrl String
+
+    ingredients Ingredient[] // many to many
+    items ProductItem[] // variations of products - ProductItem one to many
+
+    category Category @relation(fields: [categoryId], references: [id]) // Это в бд
+    categoryId Int // 2 это свойство в бд
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// Вариация продукта к примеру пицца маленькая
+model ProductItem {
+    id Int @id @default(autoincrement()) 
+
+    price Int
+    size Int? // ? - СВОЙСТВО ОПЦИОНАЛЬНОЕ
+    pizzaType Int?
+
+    product Product @relation(fields: [productId], references: [id])
+    productId Int
+
+    cartItems CartItem[] // Продукт может содержать много cartItems 2, 3 и > quanity
+}
+
+model Ingredient {
+    id Int @id @default(autoincrement())
+
+    name String
+    price Int
+    imageUrl String
+
+    products Product[]
+    cartItems CartItem[] // many-many из за того что нет 1 связи(ингридиентам же не нужно знать о cartItem)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Cart {
+    id Int @id @default(autoincrement())
+    
+    user  User? @relation(fields: [userId], references: [id])
+    userId Int? @unique
+
+    items CartItem[] // one to many
+
+    token String // для связи с user если он не зареган
+
+    totalAmount Int
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+// у CartItem могут быть разные ингридиенты 
+model CartItem {
+    id Int @id @default(autoincrement())
+
+    cart Cart@relation(fields: [cartId], references: [id]) // one to many
+    cartId Int
+
+    productItem ProductItem @relation(fields: [productItemId], references: [id])
+    productItemId Int
+
+    quantity Int @default(1)
+
+    ingredients Ingredient[] // доп ингредиенты при создании заказа
+    // pizzaSize Int? // Доп инфа при создании заказа 
+    // pizzaType Int?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}   
+
+// Заказ в бд 
+model Order {
+    id Int @id @default(autoincrement())
+
+    user  User? @relation(fields: [userId], references: [id])
+    userId Int?
+
+    token String
+    totalAmount Int
+    status OrderStatus
+    paymentId String? // Umany, stripe... id для возврата средств в Umany или stripe
+
+    items Json // Список товаров в json который запушим через ui - POST но можно и CartItem[]
+    
+    // Для курьера инфа 
+    fullName String 
+    email    String  // проверяется в бд
+    phone    String
+    address  String
+    comment  String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model VerificationCode { //чтобы понять можно создавать заказ или нет человеку
+    id Int @id @default(autoincrement())
+
+    user User @relation(fields: [userId], references: [id])
+    userId Int @unique
+
+    code String
+
+    expiresAt DateTime @default(now()) // через время удалится
+    createdAt DateTime @default(now())
+
+    @@unique([userId, code]) // && вместе проверяют у двух и code и Userid
+    // уникальные должны быть и userId  code
+}
+
+
+model Story {
+    id Int @id @default(autoincrement())
+    previewImageUrl String
+
+    items StoryItem[]
+
+    createdAt DateTime @default(now())
+}
+
+model StoryItem {
+    id Int @id @default(autoincrement())
+
+    storyId Int
+    story Story @relation(fields: [storyId], references: [id])
+
+    sourceUrl String
+
+    createdAt DateTime @default(now())
+}
+
+enum OrderStatus {
+    PENDING // CОЗДАЛ ЗАКАЗ НО НЕ СДЕЛАЛ ОПЛАТУ
+    SUCCEEDED // СДЕЛАЛ ОПЛАТУ
+    CANCELLED 
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}

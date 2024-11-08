@@ -1,0 +1,14 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "@typescript-eslint/no-explicit-any": "off", // Отключаем правило
+    "@next/next/no-img-element": "off", // Отключаем правило для img
+  },
+  "settings": {
+        "react": {
+            "version": "detect" // Это поможет ESLint автоматически определять версию React
+        }
+    }
+}
