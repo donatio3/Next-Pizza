@@ -11,7 +11,7 @@
     "prisma:push": "prisma db push",
     "prisma:studio": "prisma studio",
     "prisma:seed": "prisma db seed",
-    "postinstall": "prisma generate" 
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -44,6 +44,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.1",
     "react-hot-toast": "^2.4.1",
+    "react-insta-stories": "^2.7.0",
     "react-use": "^17.5.1",
     "resend": "^4.0.1-alpha.0",
     "shadcn-ui": "^0.9.2",
