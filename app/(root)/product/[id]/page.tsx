@@ -30,8 +30,8 @@ export default async function ProductModalPage({ params }: { params: Promise<{ i
 
  
   return (
-    <Container className="flex my-10 justify-center">
-        <ProductForm product={product} />      
+    <Container className="flex my-10 justify-center gap-x-10">
+        <ProductForm className='gap-x-40' product={product} />      
     </Container>
   );
 }   

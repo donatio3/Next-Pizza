@@ -36,26 +36,27 @@ export const ProductForm: React.FC<Props> = ({className, product, onSubmit: _onS
     }
 
   return (
-    <div className={cn('', className)}>
+    
+    <>
          {  
                 isPizzaForm 
                 ? <ChoosePizzaForm 
+                    className={className}
                     loading={loading}
                     items={product.items} product={product}
                     imageUrl={product.imageUrl}
-                    className='justify-around'
                     name={product.name} ingredients={product.ingredients} 
                     onSubmit={(id, ingredients) => onSubmit(id, ingredients)} />
                 : <ChooseProductForm 
+                    className={className}
                     loading={loading}
                     items={product.items} product={product}
                     imageUrl={product.imageUrl} 
-                    className='justify-around'
                     name={product.name} ingredients={product.ingredients}
                     price={firstItem.price} onSubmit={onSubmit}/>
             }
     
 
-    </div>
+    </>
   );
 };

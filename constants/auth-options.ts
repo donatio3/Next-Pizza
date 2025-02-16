@@ -57,8 +57,8 @@ export const authOptions: AuthOptions = {
           const isPasswordValid = await compare(credentials.password, findUser.password)
           if (!isPasswordValid) return null
   
-          // Проверяем, подтвержден ли пользователь
-        //   if (!findUser.verified) return null
+          // Проверяем, подтвержден ли пользователь !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //   if (!findUser.verified) return null 
   
           // Возвращаем данные пользователя
           return {

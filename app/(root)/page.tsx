@@ -1,6 +1,6 @@
 import { Stories, ProductGroupList, Container, Filters , TopBar, Title } from "../../components/shared";
 import { Suspense } from "react";
-import GetSearchParams, { findPizzas  } from "../../lib/find-pizzas";
+import { findPizzas  } from "../../lib/find-pizzas";
 
 // Серверный компонент страницы
 export default async function Home({searchParams}: {searchParams: Promise<any>}) {

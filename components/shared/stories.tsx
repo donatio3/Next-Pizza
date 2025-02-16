@@ -21,6 +21,7 @@ export const Stories: React.FC<Props> = ({className}) => {
         async function fetchStories() {
             const data = await Api.stories.getAll()
             setStories(data)
+            console.log('data story!!!', data)
         }
 
         fetchStories()
@@ -29,9 +30,10 @@ export const Stories: React.FC<Props> = ({className}) => {
     // ОТКРЫВАЕТ СТОРИС; story - Группа содержащая storyItem
     const onClickStory = (story: IStory) => {
         setSelectedStory(story)
-
+        document.body.style.overflow = 'hidden'
         if (story.items.length > 0) { 
             setOpen(true)
+            console.log('setOpen true');            
         }
     }
     
@@ -43,23 +45,28 @@ export const Stories: React.FC<Props> = ({className}) => {
                 <div key={index} className="w-[200px] h-[250px] bg-gray-200 rounded-md animate-pulse" />
             ))}
 
-            {stories.map((story) => (
-                <img src={story.previewImageUrl} alt='story'
-                 className='rounded-md cursor-pointer'
-                 height={250}
-                 width={200}
-                 onClick={() => onClickStory(story)}/>
-            ))}
+            {stories.map((story, i) => {
+                console.log(story, 'story!!!');
+                if (i < 6) {
+                    return (
+                        <img key={story.id} src={story.previewImageUrl} alt='story'
+                        className='rounded-md cursor-pointer'
+                        height={250}
+                        width={200}
+                        onClick={() => onClickStory(story)}/>
+                    ) 
+                }
+            })}
 
-{open && (
+        {open && (
           <div className="absolute left-0 top-0 w-full h-full bg-black/80 flex items-center justify-center z-30">
             <div className="relative" style={{ width: 520 }}>
-              <button className="absolute -right-10 -top-5 z-30" onClick={() => setOpen(false)}>
+              <button className="absolute -right-10 -top-5 z-30" onClick={() => {setOpen(false); document.body.style.overflow = ''}}>
                 <X className="absolute top-0 right-0 w-8 h-8 text-white/50" />
               </button>
 
               <ReactStories
-                onAllStoriesEnd={() => setOpen(false)}
+                onAllStoriesEnd={() => {setOpen(false); document.body.style.overflow = ''}}
                 stories={selectedStory?.items.map((item) => ({ url: item.sourceUrl })) || []}
                 defaultInterval={3000}
                 width={520}

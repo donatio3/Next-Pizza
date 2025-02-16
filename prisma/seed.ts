@@ -87,40 +87,52 @@ async function up() { // генерирует данные для бд
         ],
       });
     
-      await prisma.storyItem.createMany({
-        data: [
-          {
-            storyId: 1,
-            sourceUrl:
-              'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
-          },
-          {
-            storyId: 1,
-            sourceUrl:
-              'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
-          },
-          {
-            storyId: 1,
-            sourceUrl:
-              'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
-          },
-          {
-            storyId: 1,
-            sourceUrl:
-              'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
-          },
-          {
-            storyId: 1,
-            sourceUrl:
-              'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
-          },
-        ],
+      async function createStoryItemsWithForEach() {
+        const storyItemsData = [] as any[];
+      
+        // Массив storyId, по которому будем перебирать
+        const storyIds = [1, 2, 3, 4, 5, 6];
+      
+        // Перебираем все storyId с помощью forEach
+        storyIds.forEach((storyId) => {
+          const items = [
+            'https://cdn.inappstory.ru/file/dd/yj/sx/oqx9feuljibke3mknab7ilb35t.webp?k=IgAAAAAAAAAE',
+            'https://cdn.inappstory.ru/file/jv/sb/fh/io7c5zarojdm7eus0trn7czdet.webp?k=IgAAAAAAAAAE',
+            'https://cdn.inappstory.ru/file/ts/p9/vq/zktyxdxnjqbzufonxd8ffk44cb.webp?k=IgAAAAAAAAAE',
+            'https://cdn.inappstory.ru/file/ur/uq/le/9ufzwtpdjeekidqq04alfnxvu2.webp?k=IgAAAAAAAAAE',
+            'https://cdn.inappstory.ru/file/sy/vl/c7/uyqzmdojadcbw7o0a35ojxlcul.webp?k=IgAAAAAAAAAE',
+          ];
+      
+          // Добавляем элементы для текущей истории
+          items.forEach((sourceUrl) => {
+            storyItemsData.push({
+              storyId: storyId,
+              sourceUrl: sourceUrl,
+            });
+          });
+        });
+      
+        // Создание всех элементов
+        await prisma.storyItem.createMany({
+          data: storyItemsData,
+        });
+      
+        console.log('Story items created!');
+      }
+      
+      // Вызов функции
+      createStoryItemsWithForEach().catch((error) => {
+        console.error('Error creating story items:', error);
       });
+      
+
+      
 
     // пиццы создаются отдельно потому что только они имеют разные вариации - это сайт пииццы
     const pizza1 = await prisma.product.create({
         data: {
           name: 'Пепперони фреш',
+          popularity: 2,
           imageUrl:
             'https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp',
           categoryId: 1,
@@ -133,6 +145,7 @@ async function up() { // генерирует данные для бд
     const pizza2 = await prisma.product.create({
         data: {
             name: 'Сырная',
+            popularity: 3,
             imageUrl:
             'https://media.dodostatic.net/image/r:233x233/11EE7D610CF7E265B7C72BE5AE757CA7.webp',
             categoryId: 1,
@@ -145,6 +158,7 @@ async function up() { // генерирует данные для бд
     const pizza3 = await prisma.product.create({
         data: {
             name: 'Чоризо фреш',
+            popularity: 5,
             imageUrl:
             'https://media.dodostatic.net/image/r:584x584/11EE7D61706D472F9A5D71EB94149304.webp',
             categoryId: 1,

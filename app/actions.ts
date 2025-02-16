@@ -10,7 +10,6 @@ import { hashSync } from 'bcryptjs';
 // все серверныe actions должны быть в одном файле 
 
 export async function createOrder(data: CheckoutFormValues) {
-    console.log(`Email: "${data.email}"`);
 
     try {
         const cookieStore = cookies()
@@ -161,7 +160,7 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
   }
 
 
-  export async function registerUser(body: Prisma.UserCreateInput) {
+export async function registerUser(body: Prisma.UserCreateInput) {
     'use server'
     try {
       const user = await prisma.user.findFirst({
@@ -203,6 +202,8 @@ export async function updateUserInfo(body: Prisma.UserUpdateInput) {
     //       code,
     //     }),
     //   );
+
+    
     } catch (err) {
       console.log('Error [CREATE_USER]', err);
       throw err;

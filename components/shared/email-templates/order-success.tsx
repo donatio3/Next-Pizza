@@ -20,8 +20,8 @@ export const OrderSuccessTemplate: React.FC<Props> = ({
     <ul>
         {items.map((item) => (
             <li key={item.id}>
-                {item.productItem.product.name} | {item.productItem.price} ₽ x {item.quantity} шт. = 
-                {item.productItem.price * item.quantity} ₽
+                {item.productItem.product.name} | {item.productItem.price} MDL x {item.quantity} шт. = 
+                {item.productItem.price * item.quantity} MDL
             </li>
         ))}
     </ul>

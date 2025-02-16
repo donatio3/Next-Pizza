@@ -1,6 +1,5 @@
 import { CartStateItem, getCartDetails } from "@/lib/get-cart-details";
 import { Api } from "@/services/api-client";
-import { updateItemQuantity } from "@/services/cart";
 import { CreateCartItemValues } from "@/services/dto/cart.dto";
 import { create } from "zustand";
 
@@ -25,16 +24,13 @@ export interface CartState {
 
     setIsOpenModal: (value: boolean) => void; 
 }
-  
-
-
 
 export const useCartStore = create<CartState>()((set) => ({
     items: [],
     error: false,
     loading: true,
     totalAmount: 0,
-    isOpenModal: false,
+    isOpenModal: true,
 
     fetchCartItems: async () => {
         try {

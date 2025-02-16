@@ -33,11 +33,11 @@ model User {
     orders Order[]
     verificationCode VerificationCode? // one to one
 
-
     // user создан в опред время - now, DateTime дата создания
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt // Сохр когда User был обновлен
 }
+
 model Category {
     id Int @id @default(autoincrement())
     name String @unique
@@ -52,6 +52,8 @@ model Product {
 
     name String
     imageUrl String
+
+    popularity Int @default(0)
 
     ingredients Ingredient[] // many to many
     items ProductItem[] // variations of products - ProductItem one to many
@@ -101,7 +103,7 @@ model Cart {
 
     token String // для связи с user если он не зареган
 
-    totalAmount Int
+    totalAmount Int 
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -120,8 +122,6 @@ model CartItem {
     quantity Int @default(1)
 
     ingredients Ingredient[] // доп ингредиенты при создании заказа
-    // pizzaSize Int? // Доп инфа при создании заказа 
-    // pizzaType Int?
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }   

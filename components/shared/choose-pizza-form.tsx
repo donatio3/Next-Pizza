@@ -40,7 +40,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({className, imageUrl, name, ing
     }
 
   return (
-   <div className={cn(className, 'flex flex-1')}>
+   <div className={cn(className, 'flex content-center')}>
         <PizzaImage imageUrl={imageUrl} size={size}/>
 
         <div className='w-[550px] bg-[#FCFCFC] p-7'>
@@ -81,7 +81,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({className, imageUrl, name, ing
 
             <Button loading={loading} className='h-[55px] px-10 text-base rounded-[18px] w-full mt-10'
             onClick={handleClickAdd}>
-                Добавить в корзину за {totalPrice} $
+                Добавить в корзину за {totalPrice} MDL
             </Button>
         </div>
     </div>

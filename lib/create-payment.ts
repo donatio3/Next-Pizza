@@ -43,8 +43,6 @@ export async function createPayment(details: Props) {
             headers
         }   
   );
-
     return data;
-
 }
 

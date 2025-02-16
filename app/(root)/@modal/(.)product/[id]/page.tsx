@@ -1,6 +1,7 @@
 import { SegmentParams } from '@/@types/prisma';
 import { ChooseProductModal } from '@/components/shared/modals';
 import { prisma } from '@/prisma/prisma-client';
+import { useCartStore } from '@/store';
 import { notFound } from 'next/navigation';
 
 export interface PageProps {
@@ -25,7 +26,7 @@ export interface PageProps {
         items: true,
       },
     });
-
+    
     if (!product) {
         return notFound();
     }

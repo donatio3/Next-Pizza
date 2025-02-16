@@ -65,6 +65,7 @@ export const findPizzas = async (params: GetSearchParams) => {
                         orderBy: {
                             price: 'asc'
                         }
+                        
                     }
                 }
             }

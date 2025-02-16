@@ -21,7 +21,7 @@ export const IngredientItem: React.FC<Props> = ({className, imageUrl,id, name, p
         {active && <CircleCheck className='absolute top-2 right-2 text-primary'/>}
         <img src={imageUrl} width={110} height={110} alt={name}/>
         <span className='text-xs mb-1'>{name}</span>
-        <span className='text-xs mb-1'>{price} $</span>
+        <span className='text-xs mb-1'>{price} MDL</span>
     </div>
   );
 };

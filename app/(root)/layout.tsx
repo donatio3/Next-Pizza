@@ -6,8 +6,6 @@ export const metadata: Metadata = {
   title: 'Next Pizza | Главная',
 };
 
-console.log(Header, 'SAD')
-
 export default function HomeLayout({
   children,
   modal,

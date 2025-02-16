@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Title } from './title';
 import { ProductCard } from './product-card';
 import {useIntersection} from 'react-use'
 import { useCategoryStore } from '@/store/category';
 import { ProductWithRelations } from '@/@types/prisma';
+import { sortProductsStore } from '@/store';
+import { sortProducts } from '@/lib/sortProducts';
 
 interface Props {
     className?: string
@@ -17,11 +19,14 @@ interface Props {
 
 export const ProductGroupList: React.FC<Props> = ({className, items, title, categoryId, listClassName}) => {
     const setActiveCategoryId = useCategoryStore((state) => state.setActiveId)
+    const [direction, option] = sortProductsStore(state => [state.direction, state.option])
+    const [filteredItems, setFilteredItems] = useState<ProductWithRelations[]>([])
+
 
     // для обновления state активного просматриваемого блока
     const intersectionRef = useRef(null);
     const intersection = useIntersection(intersectionRef, {
-        threshold: 0.8,
+        threshold: 1,
     })
 
     useEffect(() => {
@@ -30,14 +35,18 @@ export const ProductGroupList: React.FC<Props> = ({className, items, title, cate
         }
     }, [categoryId, title, intersection?.isIntersecting])
 
-    
+    useEffect(() => {
+        setFilteredItems(sortProducts(items!, direction, option))
+        console.log('effect', direction, option);
+    }, [direction, option, items])
+
 
   return (
     <div className={cn('', className)} id={title} ref={intersectionRef}>
         <Title text={title} size='lg' className='font-extrabold mb-5'/>
 
-        <div className={cn('grid flex-wrap grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10 w-max-[200px]', listClassName)}>
-            {items?.map((product, i) => (
+        <div className={cn('flex flex-wrap gap-x-16 gap-y-10', listClassName)}>
+            {filteredItems?.map((product, i) => (
                 <ProductCard 
                 description='ОПИСАНИЕ ПРОДУКТА'
                 id={product.id} 

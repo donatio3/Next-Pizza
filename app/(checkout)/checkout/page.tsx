@@ -17,7 +17,7 @@ import { Api } from "@/services/api-client";
 
 export default function checkoutPage() {
     const [submitting, setSubmitting] = useState(false)
-    const {totalAmount, items, loading, fetchCartItems, removeCartItem, updateItemQuantity} = useCart()
+    const {totalAmount, items, loading, removeCartItem, updateItemQuantity} = useCart()
     const {data : session} = useSession() // возвращает данные сеанса вошедшего в систему usera.
     
 

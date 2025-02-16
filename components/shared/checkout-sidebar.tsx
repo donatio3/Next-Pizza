@@ -26,7 +26,7 @@ export const CheckoutSidebar: React.FC<Props> = ({className,loading, totalAmount
         <WhiteBlock className="p-6 sticky top-4">
             <div className="flex flex-col gap-1">
                 <span className="text-xl">Итого:</span>
-                {loading ? <Skeleton className='h-11 w-48 '/> : <span className="h-11 w-48 text-[34px] font-extrabold">{totalPrice} ₽ </span>}
+                {loading ? <Skeleton className='h-11 w-48 '/> : <span className="h-11 w-48 text-[32px] font-extrabold">{totalPrice} MDL </span>}
             </div>
 
             <CheckoutItemDetails 
@@ -35,19 +35,19 @@ export const CheckoutSidebar: React.FC<Props> = ({className,loading, totalAmount
                 <Package size={18}   className="mr-2 text-gray-300"/>
                 Cтоимость корзины: 
                 </div>
-        } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${totalAmount} ₽`} className="mt-10"/>
+        } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${totalAmount} MDL`} className="mt-10"/>
             <CheckoutItemDetails title={
                 <div className="flex items-center">
                     <Percent size={18}   className="mr-2 text-gray-300"/>
                     Налоги:
                 </div>   
-            } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${vatPrice} ₽`} className="mt-10"/>
+            } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${vatPrice} MDL`} className="mt-10"/>
             <CheckoutItemDetails title={
                 <div className="flex items-center">
                 <Truck size={18} className="mr-2 text-gray-300"/>
                 Доставка:
             </div>  
-            } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${DELIVERY_PRICE} ₽`} className="mt-10"/>
+            } value={loading ? <Skeleton className='h-6 w-16 rounded-[6px] '/> : `${DELIVERY_PRICE} MDL`} className="mt-10"/>
 
             <Button type="submit" loading={loading} className="w-full h-14 rounded-2xl mt-6 text-base font-bold">
                 Перейти к оплате
